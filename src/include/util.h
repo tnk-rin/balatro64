@@ -107,8 +107,6 @@ unsigned char hand_decoder(struct Hand* h) {
     }
     free(count);
 
-    printf("%d\n", OAK);
-
     // Check flags
     if (isFlush) {
         if(isStraight)
