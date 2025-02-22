@@ -2,8 +2,7 @@
 #include <libdragon.h>
 #include "include/types.h"
 #include "include/jokers.h"
-
-int hand_decoder(struct Hand h);
+#include "include/util.h"
 
 int main(void)
 {
@@ -11,8 +10,6 @@ int main(void)
 
     debug_init_usblog();
     console_set_debug(true);
-
-    printf("Balatro 64!\n");
 
     struct Score score;
     struct Hand hand;
@@ -30,7 +27,7 @@ int main(void)
     c4.suit = SPADES;
     c4.value = 10;
     struct Card c5;
-    c5.suit = DIAMOND;
+    c5.suit = SPADES;
     c5.value = 9;
 
     hand.cards[0] = c1;
@@ -38,37 +35,16 @@ int main(void)
     hand.cards[2] = c3;
     hand.cards[3] = c4;
     hand.cards[4] = c5;
+    hand.played = 5;
 
     score.chips = 50;
     score.mult = 2;
 
     printf("Chips: %lld | Mult: %lld   |   Total: %lld\n", score.chips, score.mult, score.chips * score.mult);
-
-    jok_joker(&score);
-
+    jok_droll_joker(&score, &hand);
+    printf("Chips: %lld | Mult: %lld   |   Total: %lld\n", score.chips, score.mult, score.chips * score.mult);
+    jok_crazy_joker(&score, &hand);
     printf("Chips: %lld | Mult: %lld   |   Total: %lld\n", score.chips, score.mult, score.chips * score.mult);
 
-    int handtype = hand_decoder(hand);
-    
-    printf("%d\n", handtype);
-
     while(1) {}
-}
-// TODO: Take in jokers and check for four feeners and shortcut
-int hand_decoder(struct Hand h) {
-    bool isFlush = false;
-    bool isStraight = false;
-    int numSame = 0;
-
-    if(h.cards[0].suit == h.cards[1].suit && 
-        h.cards[0].suit == h.cards[2].suit &&
-        h.cards[0].suit == h.cards[3].suit &&
-        h.cards[0].suit == h.cards[4].suit)
-        isFlush = true;
-
-
-    if (isFlush)
-        return FLUSH;
-
-    return HIGHCARD;
 }
