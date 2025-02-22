@@ -26,21 +26,22 @@ bool checkStraight(struct Hand* h) {
     return true;
 }
 
-int countFrequency(struct Hand* h, int target) {
-    int count = 0;
+int* countFrequency(struct Hand* h) {
+    int *count = calloc(13, sizeof(int));
+
     for (int i = 0; i < h->played; ++i) {
-        if (h->cards[i].value == target)
-            ++count;
+        ++count[h->cards[i].value - 1];
     }
+
     return count;
 }
 
 // TODO: Take in jokers and check for four feeners and shortcut
-int hand_decoder(struct Hand* h) {
+unsigned char hand_decoder(struct Hand* h) {
     bool isFlush = false;
     bool isStraight = false;
     bool isFullHouse = false;
-    int numSame = 0;
+    unsigned char OAK = 0, OAK2 = 0;
 
     // Sort cards by rank
     handSort(h);
@@ -55,16 +56,66 @@ int hand_decoder(struct Hand* h) {
     // Straight
     isStraight = checkStraight(h);
 
-    // Pair, ThreeOAK, FourOAK, FiveOAK, Full House
-    
+    // Pair, ThreeOAK, FourOAK, FiveOAK, Full House, still check for pairs in case of feeners
+    int *count = countFrequency(h);
+    for(int i = 0; i < 13; ++i) {
+        //printf("%d : %d\n", i+1, count[i]);
+        switch(count[i]) {
+            case 2:
+                OAK = PAIR;
+                OAK2 = 0;
+
+                for(int j = i + 1; j < 13; ++j) {
+                    //printf("%d : %d\n", j+1, count[j]);
+                    OAK2 = (count[j] == 2) ? PAIR : 
+                           (count[j] == 3) ? THREEOAK : OAK2;
+                    if(OAK2)
+                        break;
+                }
+
+                OAK = (OAK2 == PAIR) ? TWOPAIR : 
+                      (OAK2 == THREEOAK) ? FULLHOUSE : OAK;
+
+                break;
+
+            case 3:
+                OAK = THREEOAK;
+                OAK2 = 0;
+
+                for(int j = i + 1; j < 13; ++j) {
+                    OAK2 = (count[j] == 2) ? PAIR : OAK2;
+                    if(OAK2)
+                        break;
+                }
+
+                OAK = (OAK2 == PAIR) ? FULLHOUSE : OAK;
+                break;
+
+            case 4:
+                OAK = FOUROAK;
+                break;
+
+            case 5:
+                OAK = FIVEOAK;
+                break;
+
+            default:
+                OAK = HIGHCARD;
+                continue;
+        }
+        break;
+    }
+    free(count);
+
+    printf("%d\n", OAK);
 
     // Check flags
     if (isFlush) {
         if(isStraight)
             return STRAIGHTFLUSH;
-        if(isFullHouse)
+        if(OAK == FULLHOUSE)
             return FLUSHHOUSE;
-        if(numSame == 5)
+        if(OAK == FIVEOAK)
             return FLUSHFIVE;
         return FLUSH;
     }
@@ -72,6 +123,6 @@ int hand_decoder(struct Hand* h) {
     if (isStraight)
         return STRAIGHT;
 
-    return HIGHCARD;
+    return OAK;
 }
 #endif

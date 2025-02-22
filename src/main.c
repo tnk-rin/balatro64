@@ -22,12 +22,12 @@ int main(void)
     c2.value = Q;
     struct Card c3;
     c3.suit = SPADES;
-    c3.value = J;
+    c3.value = Q;
     struct Card c4;
     c4.suit = SPADES;
-    c4.value = 10;
+    c4.value = 9;
     struct Card c5;
-    c5.suit = SPADES;
+    c5.suit = DIAMOND;
     c5.value = 9;
 
     hand.cards[0] = c1;
@@ -40,11 +40,15 @@ int main(void)
     score.chips = 50;
     score.mult = 2;
 
+    printf("Hand: %d, %d, %d, %d, %d\nDetermined hand type: %d\n\n", c1.value, c2.value, c3.value, c4.value, c5.value, hand_decoder(&hand));
+
+    /*
     printf("Chips: %lld | Mult: %lld   |   Total: %lld\n", score.chips, score.mult, score.chips * score.mult);
     jok_droll_joker(&score, &hand);
     printf("Chips: %lld | Mult: %lld   |   Total: %lld\n", score.chips, score.mult, score.chips * score.mult);
     jok_crazy_joker(&score, &hand);
     printf("Chips: %lld | Mult: %lld   |   Total: %lld\n", score.chips, score.mult, score.chips * score.mult);
+    */
 
     while(1) {}
 }
