@@ -7,9 +7,9 @@
 int main(void)
 {
     console_init();
-
     debug_init_usblog();
     console_set_debug(true);
+    srand(1000);
 
     struct Score score;
     struct Hand hand;
@@ -27,7 +27,7 @@ int main(void)
     c4.suit = SPADES;
     c4.value = 9;
     struct Card c5;
-    c5.suit = DIAMOND;
+    c5.suit = DIAMONDS;
     c5.value = 9;
 
     hand.cards[0] = c1;

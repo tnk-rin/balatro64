@@ -9,7 +9,7 @@
 #define CLUBS 1
 #define SPADES 2
 #define HEARTS 3
-#define DIAMOND 4
+#define DIAMONDS 4
 
 struct Card {
     int value;
