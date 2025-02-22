@@ -8,7 +8,7 @@ void jok_joker(struct Score* score) {
     score->mult += 4;
 }
 
-// 118: Played cards with Spade suit icon Spade suit give +50 Chips when scored
+// 2: Played cards with Diamond suit give +3 Mult when scored
 void jok_greedy_joker(struct Score* score, struct Hand* hand) {
     for(int i = 0; i < hand->played; ++i) {
         if (hand->cards[i].suit == DIAMONDS)
@@ -16,7 +16,7 @@ void jok_greedy_joker(struct Score* score, struct Hand* hand) {
     }
 }
 
-// 119: Played cards with Club suit icon Club suit give +7 Mult when scored 
+// 3: Played cards with Heart suit give +3 Mult when scored 
 void jok_lusty_joker(struct Score* score, struct Hand* hand) {
     for(int i = 0; i < hand->played; ++i) {
         if (hand->cards[i].suit == HEARTS)
@@ -24,7 +24,7 @@ void jok_lusty_joker(struct Score* score, struct Hand* hand) {
     }
 }
 
-// 119: Played cards with Club suit icon Club suit give +7 Mult when scored 
+// 4: Played cards with Spade suit give +3 Mult when scored 
 void jok_wrathful_joker(struct Score* score, struct Hand* hand) {
     for(int i = 0; i < hand->played; ++i) {
         if (hand->cards[i].suit == SPADES)
@@ -32,7 +32,7 @@ void jok_wrathful_joker(struct Score* score, struct Hand* hand) {
     }
 }
 
-// 119: Played cards with Club suit icon Club suit give +7 Mult when scored 
+// 119: Played cards with Club suit give +3 Mult when scored 
 void jok_gluttonous_joker(struct Score* score, struct Hand* hand) {
     for(int i = 0; i < hand->played; ++i) {
         if (hand->cards[i].suit == CLUBS)
@@ -197,7 +197,7 @@ void jok_smiley_face(struct Score* score, struct Hand* hand) {
     }
 }
 
-// 118: Played cards with Spade suit icon Spade suit give +50 Chips when scored
+// 118: Played cards with Spade suit give +50 Chips when scored
 void jok_arrowhead(struct Score* score, struct Hand* hand) {
     for(int i = 0; i < hand->played; ++i) {
         if (hand->cards[i].suit == SPADES)
@@ -205,7 +205,7 @@ void jok_arrowhead(struct Score* score, struct Hand* hand) {
     }
 }
 
-// 119: Played cards with Club suit icon Club suit give +7 Mult when scored 
+// 119: Played cards with Club suit give +7 Mult when scored 
 void jok_onyx_agate(struct Score* score, struct Hand* hand) {
     for(int i = 0; i < hand->played; ++i) {
         if (hand->cards[i].suit == CLUBS)

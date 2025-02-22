@@ -59,14 +59,12 @@ unsigned char hand_decoder(struct Hand* h) {
     // Pair, ThreeOAK, FourOAK, FiveOAK, Full House, still check for pairs in case of feeners
     int *count = countFrequency(h);
     for(int i = 0; i < 13; ++i) {
-        //printf("%d : %d\n", i+1, count[i]);
         switch(count[i]) {
             case 2:
                 OAK = PAIR;
                 OAK2 = 0;
 
                 for(int j = i + 1; j < 13; ++j) {
-                    //printf("%d : %d\n", j+1, count[j]);
                     OAK2 = (count[j] == 2) ? PAIR : 
                            (count[j] == 3) ? THREEOAK : OAK2;
                     if(OAK2)
