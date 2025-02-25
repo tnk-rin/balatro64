@@ -11,11 +11,6 @@
 #define HEARTS 3
 #define DIAMONDS 4
 
-struct Card {
-    int value;
-    int suit;
-};
-
 enum HandTypes {
     HIGHCARD = 0b00000001,
     PAIR = 0b00000011,
@@ -31,6 +26,17 @@ enum HandTypes {
     FLUSHFIVE = FIVEOAK | FLUSH
 };
 
+struct Card {
+    int value;
+    int suit;
+};
+
+struct Deck {
+    struct Card *cards;
+    int size;
+    int drawn;
+};
+
 struct Score {
     long long chips;
     long long mult;
@@ -39,6 +45,11 @@ struct Score {
 struct Hand {
     struct Card cards[5];
     int played;
+};
+
+struct Held {
+    struct Card cards[100];
+    int handsize;
 };
 
 #endif

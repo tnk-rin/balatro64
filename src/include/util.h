@@ -2,8 +2,11 @@
 #define _UTIL
 #include "types.h"
 
+
+/* Hand Utility */
+
 // from geeksforgeeks cause I couldnt be bothered to do this from scratch
-void handSort(struct Hand* h) {
+void hand_sort(struct Hand* h) {
     for (int i = 0; i < h->played - 1; i++) {
         int min_idx = i;
         for (int j = i + 1; j < h->played; j++) {
@@ -17,7 +20,7 @@ void handSort(struct Hand* h) {
     }
 }
 
-bool checkStraight(struct Hand* h) {
+bool check_straight(struct Hand* h) {
     for (int i = 1; i < h->played; ++i) {
         if (h->cards[i].value != h->cards[i-1].value + 1) {
             return false;
@@ -26,7 +29,7 @@ bool checkStraight(struct Hand* h) {
     return true;
 }
 
-int* countFrequency(struct Hand* h) {
+int* count_frequency(struct Hand* h) {
     int *count = calloc(13, sizeof(int));
 
     for (int i = 0; i < h->played; ++i) {
@@ -44,7 +47,7 @@ unsigned char hand_decoder(struct Hand* h) {
     unsigned char OAK = 0, OAK2 = 0;
 
     // Sort cards by rank
-    handSort(h);
+    hand_sort(h);
 
     // Flush
     if(h->cards[0].suit == h->cards[1].suit && 
@@ -54,10 +57,10 @@ unsigned char hand_decoder(struct Hand* h) {
         isFlush = true;
 
     // Straight
-    isStraight = checkStraight(h);
+    isStraight = check_straight(h);
 
     // Pair, ThreeOAK, FourOAK, FiveOAK, Full House, still check for pairs in case of feeners
-    int *count = countFrequency(h);
+    int *count = count_frequency(h);
     for(int i = 0; i < 13; ++i) {
         switch(count[i]) {
             case 2:
@@ -121,4 +124,43 @@ unsigned char hand_decoder(struct Hand* h) {
 
     return OAK;
 }
+
+/* Deck Utility */
+
+void swap(int *x, int *y) {
+    int temp = *x;
+    *x = *y;
+    *y = temp;
+}
+
+void shuffle_deck(struct Deck *deck) {
+    struct Card temp;
+    for (int i = deck->size - 1; i > 0; --i) {
+        int j = rand() % (i + 1);
+        temp = deck->cards[i];
+        deck->cards[i] = deck->cards[j];
+        deck->cards[j] = temp;
+    }
+}
+
+void initialize_deck(struct Deck *deck) {
+    deck->cards = calloc(52, sizeof(struct Card));
+    deck->size = 52;
+    deck->drawn = 0;
+    for(int i = CLUBS; i <= DIAMONDS; ++i) {
+        for(int j = A; j <= K; ++j) {
+            struct Card c;
+            c.suit = i;
+            c.value = j;
+            deck->cards[(((i - 1) * 13) + j) - 1] = c;
+        }
+    }
+
+    shuffle_deck(deck);
+}
+
+struct Card draw_card(struct Deck *deck) {
+    return deck->cards[deck->drawn++];
+}
+
 #endif
