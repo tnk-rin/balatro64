@@ -20,6 +20,20 @@ void hand_sort(struct Hand* h) {
     }
 }
 
+void held_sort(struct Held* h) {
+    for (int i = 0; i < h->handsize - 1; i++) {
+        int min_idx = i;
+        for (int j = i + 1; j < h->handsize; j++) {
+            if (h->cards[j].value > h->cards[min_idx].value) {
+                min_idx = j;
+            }
+        }
+        struct Card temp = h->cards[i];
+        h->cards[i] = h->cards[min_idx];
+        h->cards[min_idx] = temp;
+    }
+}
+
 bool check_straight(struct Hand* h) {
     for (int i = 1; i < h->played; ++i) {
         if (h->cards[i].value != h->cards[i-1].value + 1) {
@@ -161,6 +175,28 @@ void initialize_deck(struct Deck *deck) {
 
 struct Card draw_card(struct Deck *deck) {
     return deck->cards[deck->drawn++];
+}
+
+
+/* General Purpose Utility */
+
+void initialize(struct Deck *deck, struct Held *held, struct Score *score, struct Joker *jokers) {
+    // Deck
+    initialize_deck(deck);
+
+    // Held
+    held->handsize = 8;
+    for(int i = 0; i < held->handsize; ++i)
+        held->cards[i] = draw_card(deck);
+
+    held_sort(held);
+
+    // Score
+    score->chips = 0;
+    score->mult = 0;
+
+    // Jokers
+    jokers = calloc(16, sizeof(struct Joker));
 }
 
 #endif

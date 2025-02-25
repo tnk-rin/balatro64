@@ -48,8 +48,14 @@ struct Hand {
 };
 
 struct Held {
-    struct Card cards[100];
+    struct Card cards[16];
     int handsize;
+};
+
+struct Joker {
+    int type;
+    int id;
+    int placement;
 };
 
 #endif
