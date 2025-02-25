@@ -40,6 +40,8 @@ struct Deck {
 struct Score {
     long long chips;
     long long mult;
+    uint8_t hands;
+    uint8_t discards;
 };
 
 struct Hand {

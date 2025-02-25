@@ -194,6 +194,8 @@ void initialize(struct Deck *deck, struct Held *held, struct Score *score, struc
     // Score
     score->chips = 0;
     score->mult = 0;
+    score->hands = 4;
+    score->discards = 3;
 
     // Jokers
     jokers = calloc(16, sizeof(struct Joker));
