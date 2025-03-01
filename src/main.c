@@ -25,7 +25,9 @@ void displayHeld(struct Held held, char *buf) {
 int main(void)
 {
     console_init();
-    display_init(RESOLUTION_640x480, DEPTH_32_BPP, 2, GAMMA_NONE, FILTERS_RESAMPLE);
+    display_init(RESOLUTION_640x480, DEPTH_16_BPP, 2, GAMMA_NONE, FILTERS_RESAMPLE);
+    rdpq_init();
+    dfs_init(DFS_DEFAULT_LOCATION);
     controller_init();
     debug_init_usblog();
     console_set_debug(true);
@@ -39,6 +41,7 @@ int main(void)
     struct Joker jokers;
     initialize(&deck, &held, &score, &jokers);
     
+    sprite_t* jimbo = sprite_load("rom:/jimbo.sprite");
     
     while(1) {
         char* buf = calloc(256, sizeof(char));
@@ -47,6 +50,7 @@ int main(void)
         graphics_fill_screen(disp, graphics_make_color(100, 100, 100, 255));
         displayHeld(held, buf);
         graphics_draw_text(disp, 20, 20, buf);
+        graphics_draw_sprite_trans(disp, 20, 50, jimbo);
         display_show(disp);
     }
 }

@@ -9,7 +9,9 @@ all: balatro64.z64
 OBJS = $(BUILD_DIR)/main.o
 
 balatro64.z64: N64_ROM_TITLE="Balatro64"
+balatro64.z64: $(BUILD_DIR)/balatro64.dfs
 
+$(BUILD_DIR)/balatro64.dfs: $(wildcard filesystem/*)
 $(BUILD_DIR)/balatro64.elf: $(OBJS)
 
 clean:
