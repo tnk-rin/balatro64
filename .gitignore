@@ -2,3 +2,4 @@ sprites/
 filesystem/
 build/
 *.z64
+.vscode/
