@@ -2,10 +2,10 @@
 #define _TYPES
 
 // Fancy names
-#define K 13
-#define Q 12
-#define J 11
-#define A 1
+#define K 12
+#define Q 11
+#define J 10
+#define A 0
 #define CLUBS 1
 #define SPADES 2
 #define HEARTS 3

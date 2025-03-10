@@ -166,7 +166,7 @@ void initialize_deck(struct Deck *deck) {
             struct Card c;
             c.suit = i;
             c.value = j;
-            deck->cards[(((i - 1) * 13) + j) - 1] = c;
+            deck->cards[(((i - 1) * 13) + j)] = c;
         }
     }
 
@@ -199,6 +199,12 @@ void initialize(struct Deck *deck, struct Held *held, struct Score *score, struc
 
     // Jokers
     jokers = calloc(16, sizeof(struct Joker));
+}
+
+void card_file_from_card(char* buf, struct Card* card) {
+    int id = card->value << 4;
+    id |= card->suit;
+    sprintf(buf, "rom:/deck/%02X.sprite", id);
 }
 
 #endif
